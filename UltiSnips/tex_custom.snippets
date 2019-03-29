@@ -7,7 +7,7 @@ snippet thm "theorem environment" b
 \end{theorem}
 endsnippet
 snippet thml "theorem environment with label" b
-\begin{theorem}\label{theorem:$1}
+\begin{theorem}\label{thm:$1}
 	$0
 \end{theorem}
 endsnippet
@@ -18,7 +18,7 @@ snippet lem "lemma environment" b
 \end{lemma}
 endsnippet
 snippet leml "lemma environment with label" b
-\begin{lemma}\label{lemma:$1}
+\begin{lemma}\label{lem:$1}
 	$0
 \end{lemma}
 endsnippet
@@ -29,7 +29,7 @@ snippet cor "corollary environment" b
 \end{corollary}
 endsnippet
 snippet corl "corollary environment with label" b
-\begin{corollary}\label{corollary:$1}
+\begin{corollary}\label{cor:$1}
 	$0
 \end{corollary}
 endsnippet
@@ -41,7 +41,52 @@ snippet prop "proposition environment" b
 endsnippet
 
 snippet propl "proposition environment with label" b
-\begin{proposition}\label{proposition:$1}
+\begin{proposition}\label{prop:$1}
 	$0
 \end{proposition}
+endsnippet
+
+# bar and hat
+
+priority 10
+snippet "bar" "bar" riA
+\overline{$1}$0
+endsnippet
+
+priority 100
+snippet "([a-zA-Z])bar" "bar" riA
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+snippet "hat" "hat" riA
+\hat{$1}$0
+endsnippet
+
+priority 100
+snippet "([a-zA-Z])hat" "hat" riA
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+# vector
+
+snippet "(\\?\w+)(,\.|\.,)" "Vector postfix" riA
+\vec{`!p snip.rv=match.group(1)`}
+endsnippet 
+
+# fractions
+
+priority 1000
+snippet '^.*\)/' "() Fraction" wrA
+`!p
+stripped = match.string[:-1]
+depth = 0
+i = len(stripped) - 1
+while True:
+	if stripped[i] == ')': depth += 1
+	if stripped[i] == '(': depth -= 1
+	if depth == 0: break;
+	i -= 1
+snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
+`{$1}$0
 endsnippet
